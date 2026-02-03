@@ -1,0 +1,362 @@
+/* ========================================
+   APA DO ENCANTADO - ANIMATIONS
+   Scroll-triggered animations & transitions
+   ======================================== */
+
+/* ========================================
+   INTERSECTION OBSERVER ANIMATIONS
+   ======================================== */
+
+/* Initial hidden states */
+.fade-in,
+.slide-up,
+.slide-left,
+.slide-right,
+.scale-in,
+.organic-box,
+.stat-card,
+.attraction-card,
+.activity-card,
+.fauna-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Revealed states */
+.fade-in.revealed,
+.slide-up.revealed,
+.organic-box.revealed,
+.stat-card.revealed,
+.attraction-card.revealed,
+.activity-card.revealed,
+.fauna-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-left {
+  transform: translateX(-50px);
+}
+
+.slide-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.slide-right {
+  transform: translateX(50px);
+}
+
+.slide-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scale-in {
+  transform: scale(0.9);
+}
+
+.scale-in.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger children animations */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stagger-children.revealed > *:nth-child(1) { transition-delay: 0.1s; }
+.stagger-children.revealed > *:nth-child(2) { transition-delay: 0.2s; }
+.stagger-children.revealed > *:nth-child(3) { transition-delay: 0.3s; }
+.stagger-children.revealed > *:nth-child(4) { transition-delay: 0.4s; }
+.stagger-children.revealed > *:nth-child(5) { transition-delay: 0.5s; }
+.stagger-children.revealed > *:nth-child(6) { transition-delay: 0.6s; }
+
+.stagger-children.revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Grid items stagger */
+.attractions-grid.revealed .attraction-card:nth-child(1) { transition-delay: 0.05s; }
+.attractions-grid.revealed .attraction-card:nth-child(2) { transition-delay: 0.1s; }
+.attractions-grid.revealed .attraction-card:nth-child(3) { transition-delay: 0.15s; }
+.attractions-grid.revealed .attraction-card:nth-child(4) { transition-delay: 0.2s; }
+.attractions-grid.revealed .attraction-card:nth-child(5) { transition-delay: 0.25s; }
+.attractions-grid.revealed .attraction-card:nth-child(6) { transition-delay: 0.3s; }
+
+.activities-grid.revealed .activity-card:nth-child(1) { transition-delay: 0.05s; }
+.activities-grid.revealed .activity-card:nth-child(2) { transition-delay: 0.1s; }
+.activities-grid.revealed .activity-card:nth-child(3) { transition-delay: 0.15s; }
+.activities-grid.revealed .activity-card:nth-child(4) { transition-delay: 0.2s; }
+
+.fauna-grid.revealed .fauna-card:nth-child(1) { transition-delay: 0.05s; }
+.fauna-grid.revealed .fauna-card:nth-child(2) { transition-delay: 0.1s; }
+.fauna-grid.revealed .fauna-card:nth-child(3) { transition-delay: 0.15s; }
+.fauna-grid.revealed .fauna-card:nth-child(4) { transition-delay: 0.2s; }
+.fauna-grid.revealed .fauna-card:nth-child(5) { transition-delay: 0.25s; }
+.fauna-grid.revealed .fauna-card:nth-child(6) { transition-delay: 0.3s; }
+
+.about-stats.revealed .stat-card:nth-child(1) { transition-delay: 0.1s; }
+.about-stats.revealed .stat-card:nth-child(2) { transition-delay: 0.2s; }
+.about-stats.revealed .stat-card:nth-child(3) { transition-delay: 0.3s; }
+.about-stats.revealed .stat-card:nth-child(4) { transition-delay: 0.4s; }
+
+/* ========================================
+   HERO ANIMATIONS
+   ======================================== */
+
+.hero-badge {
+  animation: fadeSlideDown 1s ease 0.3s both;
+}
+
+.hero-title .title-line {
+  animation: fadeSlideDown 1s ease 0.5s both;
+}
+
+.hero-title .title-main {
+  animation: fadeSlideUp 1.2s ease 0.7s both;
+}
+
+.hero-subtitle {
+  animation: fadeIn 1s ease 1s both;
+}
+
+.hero-cta-group {
+  animation: fadeSlideUp 1s ease 1.2s both;
+}
+
+.scroll-indicator {
+  animation: fadeIn 1s ease 1.5s both;
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ========================================
+   WATER DRIP ANIMATION
+   ======================================== */
+
+@keyframes water-drip {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px) scale(0.8);
+  }
+  20% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(calc(100% + 50px)) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(calc(100% + 80px)) scale(0.6);
+  }
+}
+
+[data-water-drop].dripping::after {
+  animation: water-drip 1.5s ease-in-out;
+}
+
+/* ========================================
+   RIPPLE EFFECT FOR BUTTONS
+   ======================================== */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-effect 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes ripple-effect {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   HOVER ANIMATIONS
+   ======================================== */
+
+/* Card lift effect */
+.organic-box {
+  transition: 
+    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.organic-box:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(74, 153, 96, 0.1);
+}
+
+/* Icon bounce */
+.attraction-icon,
+.fauna-emoji {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.attraction-card:hover .attraction-icon,
+.fauna-card:hover .fauna-emoji {
+  transform: scale(1.2) rotate(-5deg);
+}
+
+/* Stats counter animation */
+.stat-number {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.stat-card:hover .stat-number {
+  color: var(--green-500);
+  transform: scale(1.05);
+}
+
+/* ========================================
+   PARALLAX ELEMENTS
+   ======================================== */
+
+.parallax-slow {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+.parallax-medium {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+.parallax-fast {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ========================================
+   SECTION TRANSITIONS
+   ======================================== */
+
+.section-header {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.section-header.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========================================
+   LOADING STATES
+   ======================================== */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 25%,
+    var(--gray-100) 50%,
+    var(--gray-200) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .fade-in,
+  .slide-up,
+  .slide-left,
+  .slide-right,
+  .scale-in,
+  .organic-box,
+  .stat-card,
+  .attraction-card,
+  .activity-card,
+  .fauna-card,
+  .section-header {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ========================================
+   PERFORMANCE OPTIMIZATIONS
+   ======================================== */
+
+.hero-video-wrapper,
+#water-canvas {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.organic-box,
+.btn,
+.whatsapp-float {
+  will-change: transform, box-shadow;
+  transform: translateZ(0);
+}
