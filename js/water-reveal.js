@@ -40,12 +40,12 @@ class GalleryLightbox {
       <button class="lightbox-close" aria-label="Fechar"></button>
       <button class="lightbox-nav prev" aria-label="Anterior">‹</button>
       <button class="lightbox-nav next" aria-label="Próxima">›</button>
+      <div class="lightbox-caption">
+        <h3></h3>
+        <p></p>
+      </div>
       <div class="lightbox-content">
         <img src="" alt="" />
-        <div class="lightbox-caption">
-          <h3></h3>
-          <p></p>
-        </div>
       </div>
     `;
     document.body.appendChild(this.lightbox);
