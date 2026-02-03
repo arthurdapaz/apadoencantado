@@ -342,6 +342,41 @@ em {
   color: var(--green-800);
 }
 
+/* Mobile: when scrolled, menu open should still have full green background */
+@media (max-width: 768px) {
+  .header.scrolled .nav-links {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background-color: #0d2818 !important;
+    background: #0d2818 !important;
+    backdrop-filter: none !important;
+  }
+  
+  .header.scrolled .nav-links a {
+    color: #ffffff !important;
+  }
+  
+  .header.scrolled .nav-links a:hover {
+    color: #8fcc94 !important;
+  }
+  
+  .header.scrolled .nav-links a.nav-cta {
+    color: #0d2818 !important;
+    background: var(--green-100) !important;
+  }
+  
+  .header.scrolled .nav-links a.nav-cta:hover {
+    background: #ffffff !important;
+    color: #0d2818 !important;
+  }
+}
+
 .nav {
   display: flex;
   align-items: center;
@@ -1251,29 +1286,70 @@ em {
 
 @media (max-width: 768px) {
   .nav-links {
+    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--green-900);
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    background-color: #0d2818 !important;
+    background: #0d2818 !important;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: var(--space-xl);
     transform: translateX(100%);
-    transition: transform var(--transition-normal);
+    z-index: 9999;
+    opacity: 1;
+    overflow-y: auto;
   }
   
   .nav-links.active {
+    display: flex;
     transform: translateX(0);
+    animation: slideInMenu 0.3s ease-out forwards;
+  }
+  
+  @keyframes slideInMenu {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
   
   .nav-links a {
     font-size: 1.25rem;
+    color: #ffffff !important;
+    background: transparent;
+  }
+  
+  .nav-links a:hover {
+    color: #8fcc94 !important;
+  }
+  
+  .nav-links a.nav-cta {
+    color: #0d2818 !important;
+    background: var(--green-100) !important;
+  }
+  
+  .nav-links a.nav-cta:hover {
+    background: #ffffff !important;
+    color: #0d2818 !important;
   }
   
   .mobile-menu-btn {
     display: flex;
+    z-index: 10000;
+    position: relative;
+  }
+  
+  .mobile-menu-btn.active span {
+    background: #ffffff !important;
   }
   
   .mobile-menu-btn.active span:nth-child(1) {
