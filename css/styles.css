@@ -1901,6 +1901,38 @@ em {
    LIGHTBOX FULLSCREEN
    ======================================== */
 
+/* Clickable images indicator */
+.water-reveal-image,
+.gallery-item,
+.attraction-image,
+.activity-image,
+.featured-image,
+.about-image,
+.image-break-wrapper {
+  cursor: zoom-in;
+}
+
+.water-reveal-image img,
+.gallery-item img,
+.attraction-image img,
+.activity-image img,
+.featured-image img,
+.about-image img,
+.image-break-wrapper img {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.water-reveal-image:hover img,
+.gallery-item:hover img,
+.attraction-image:hover img,
+.activity-image:hover img,
+.featured-image:hover img,
+.about-image:hover img,
+.image-break-wrapper:hover img {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
 .lightbox {
   position: fixed;
   top: 0;
@@ -1979,6 +2011,22 @@ em {
   transform: scale(1.1);
 }
 
+.lightbox-counter {
+  position: absolute;
+  top: calc(var(--space-lg) + 58px);
+  right: var(--space-lg);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: 20px;
+  z-index: 10001;
+  min-width: 50px;
+  text-align: center;
+}
+
 .lightbox-close::before,
 .lightbox-close::after {
   content: '';
@@ -2019,7 +2067,7 @@ em {
   color: var(--forest-dark);
   background: rgba(255, 255, 255, 0.95);
   padding: var(--space-sm) var(--space-md);
-  border-radius: 4px 4px 0 0;
+  border-radius: 20px 20px 0 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
@@ -2029,7 +2077,7 @@ em {
   color: var(--forest-dark);
   background: rgba(255, 255, 255, 0.92);
   padding: var(--space-sm) var(--space-md);
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 20px 20px;
   line-height: 1.4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   text-align: center;
@@ -2083,6 +2131,13 @@ em {
     right: var(--space-md);
     width: 44px;
     height: 44px;
+  }
+
+  .lightbox-counter {
+    top: calc(var(--space-md) + 52px);
+    right: var(--space-md);
+    font-size: 0.8rem;
+    min-width: 44px;
   }
 
   .lightbox-nav {
