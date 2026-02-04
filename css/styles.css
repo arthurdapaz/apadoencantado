@@ -1867,6 +1867,7 @@ em {
   mask-repeat: no-repeat;
   -webkit-mask-size: contain;
   mask-size: contain;
+  text-wrap: pretty;
 }
 
 .image-break-content cite {
@@ -2089,7 +2090,7 @@ em {
 
 .lightbox-caption h3 {
   font-family: var(--font-display);
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--forest-dark);
   background: rgba(255, 255, 255, 0.95);
@@ -2100,7 +2101,7 @@ em {
 }
 
 .lightbox-caption p {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--forest-dark);
   background: rgba(255, 255, 255, 0.92);
   padding: var(--space-sm) var(--space-md);
