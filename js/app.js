@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initScrollAnimations();
   initVideoHandler();
+  initFaunaVideoHandler();
   initRippleEffect();
   initSmoothScroll();
   initCounterAnimation();
@@ -71,9 +72,9 @@ function initScrollAnimations() {
   // Observe all animatable elements
   const selectors = [
     '.organic-box', '.stat-card', '.attraction-card', '.activity-card',
-    '.fauna-card', '.section-header', '.fade-in', '.slide-up',
+    '.fauna-card', '.fauna-card-image', '.section-header', '.fade-in', '.slide-up',
     '.slide-left', '.slide-right', '.scale-in',
-    '.attractions-grid', '.activities-grid', '.fauna-grid', '.about-stats'
+    '.attractions-grid', '.activities-grid', '.fauna-grid', '.fauna-grid-images', '.about-stats'
   ];
 
   document.querySelectorAll(selectors.join(', ')).forEach(el => observer.observe(el));
@@ -99,6 +100,65 @@ function initVideoHandler() {
   new IntersectionObserver(entries => {
     entries[0].isIntersecting ? video.play().catch(() => {}) : video.pause();
   }, { threshold: 0.25 }).observe(video);
+}
+
+// ============================================
+// FAUNA VIDEO HANDLER
+// ============================================
+
+function initFaunaVideoHandler() {
+  const faunaVideos = document.querySelectorAll('.fauna-video video');
+  
+  faunaVideos.forEach(video => {
+    // Click to fullscreen with sound
+    video.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      try {
+        // Request fullscreen
+        if (video.requestFullscreen) {
+          await video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) {
+          await video.webkitRequestFullscreen();
+        } else if (video.webkitEnterFullscreen) {
+          // iOS Safari
+          video.webkitEnterFullscreen();
+        }
+        
+        // Enable sound when fullscreen
+        video.muted = false;
+        video.play();
+      } catch (err) {
+        // Fallback: just unmute and play
+        video.muted = false;
+        video.play();
+      }
+    });
+    
+    // Mute when exiting fullscreen
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        video.muted = true;
+      }
+    });
+    
+    document.addEventListener('webkitfullscreenchange', () => {
+      if (!document.webkitFullscreenElement) {
+        video.muted = true;
+      }
+    });
+    
+    // Pause when not visible (performance)
+    new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.25 }).observe(video);
+  });
 }
 
 // ============================================
