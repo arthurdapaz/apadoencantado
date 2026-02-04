@@ -1815,20 +1815,21 @@ em {
    ======================================== */
 
 .image-break {
-  position: relative;
-  height: 60vh;
-  min-height: 400px;
-  max-height: 600px;
-  overflow: hidden;
+  background: var(--green-900);
+  padding: var(--space-3xl) 0;
+}
+
+.image-break-grid {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: var(--space-2xl);
+  align-items: center;
 }
 
 .image-break-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 0;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
 }
 
 .image-break-wrapper img {
@@ -1837,59 +1838,85 @@ em {
   object-fit: cover;
 }
 
-.image-break-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.5)
-  );
-  pointer-events: none;
-}
-
 .image-break-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--space-2xl);
+  justify-content: flex-start;
+  padding: var(--space-xl);
 }
 
 .image-break-content blockquote {
   font-family: var(--font-display);
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-style: italic;
   color: var(--white);
-  max-width: 800px;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-  line-height: 1.4;
+  line-height: 1.5;
+  text-align: left;
+  position: relative;
+}
+
+.image-break-content .quote-open {
+  width: 4rem;
+  height: 3rem;
+  display: block;
+  margin-bottom: var(--space-md);
+  background-color: var(--whatsapp);
+  -webkit-mask-image: url('../images/abre_aspas.svg');
+  mask-image: url('../images/abre_aspas.svg');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
 .image-break-content cite {
   display: block;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-style: normal;
   margin-top: var(--space-lg);
+  color: var(--green-300);
   opacity: 0.9;
+}
+
+@media (max-width: 992px) {
+  .image-break-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .image-break-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .image-break-content {
+    justify-content: center;
+    padding: var(--space-lg);
+  }
+
+  .image-break-content blockquote {
+    text-align: center;
+  }
+
+  .image-break-content .quote-open {
+    width: 3rem;
+    height: 2.25rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 @media (max-width: 768px) {
   .image-break {
-    height: 50vh;
-    min-height: 300px;
+    padding: var(--space-2xl) 0;
   }
 
   .image-break-content blockquote {
     font-size: 1.5rem;
+  }
+
+  .image-break-content .quote-open {
+    width: 2.5rem;
+    height: 1.875rem;
   }
 
   .image-break-content cite {
