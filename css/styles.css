@@ -1121,6 +1121,61 @@ em {
   color: var(--white);
 }
 
+/* Contact Emails */
+.contact-emails {
+  margin-top: var(--space-2xl);
+}
+
+.contact-emails > p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-lg);
+}
+
+.emails-grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.email-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-lg);
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  text-align: center;
+  min-width: 280px;
+}
+
+.email-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.email-dept {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--green-300);
+  margin-bottom: var(--space-xs);
+}
+
+.email-address {
+  font-weight: 500;
+  color: var(--white);
+  font-size: 1rem;
+  margin-bottom: var(--space-xs);
+}
+
+.email-description {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
 /* ========================================
    FOOTER
    ======================================== */
@@ -1405,6 +1460,16 @@ em {
   .phones-grid {
     flex-direction: column;
     align-items: center;
+  }
+
+  .emails-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .email-card {
+    width: 100%;
+    max-width: 320px;
   }
 
   .footer-content {
