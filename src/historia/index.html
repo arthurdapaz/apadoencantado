@@ -81,8 +81,8 @@
       height: 100vh;
       height: 100dvh;
       display: flex;
-      align-items: flex-end;
-      justify-content: center;
+      align-items: center;
+      justify-content: flex-start;
       overflow: hidden;
     }
 
@@ -109,7 +109,8 @@
       position: relative;
       z-index: 2;
       text-align: center;
-      padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+      padding: var(--space-lg);
+      padding-top: 60vh;
       width: 100%;
     }
 
@@ -117,14 +118,16 @@
       font-family: var(--font-display);
       font-size: clamp(2rem, 5vw, 4rem);
       font-weight: 700;
+      text-wrap: balance;
       color: var(--white);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       line-height: 1.2;
       text-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.8),
-        0 4px 8px rgba(0, 0, 0, 0.6),
-        0 8px 16px rgba(0, 0, 0, 0.4);
+        0 1px 2px rgba(0, 0, 0, 0.8),
+        0 2px 2px rgba(0, 0, 0, 0.8),
+        0 3px 2px rgba(0, 0, 0, 0.8),
+        0 4px 10px rgba(0, 0, 0, 1.0);
     }
 
     /* Artigo estilo jornal */
@@ -159,6 +162,7 @@
       font-size: clamp(1rem, 2vw, 1.25rem);
       font-style: italic;
       color: var(--gray-600);
+      text-wrap: balance;
     }
 
     .article-lead {
@@ -167,6 +171,7 @@
       line-height: 1.7;
       color: var(--gray-700);
       text-align: center;
+      text-wrap: balance;
       max-width: 800px;
       margin: 0 auto var(--space-3xl);
       padding: var(--space-xl);
@@ -236,6 +241,7 @@
       background: linear-gradient(135deg, var(--green-50) 0%, var(--white) 100%);
       border-radius: var(--radius-md);
       text-align: left;
+      text-wrap: balance;
       line-height: 1.5;
     }
 
@@ -429,6 +435,10 @@
       text-align: center;
     }
 
+    .article-cta p strong {
+      color: var(--white);
+    }
+
     /* Remove capitular do CTA */
     .newspaper-content .article-cta p::first-letter,
     .article-cta p::first-letter {
@@ -581,7 +591,7 @@
       </div>
 
       <div class="hero-content container">
-        <h1 class="hero-title-main">Encantado: Espelho de Uma Vida</h1>
+        <h1 class="hero-title-main">Encantado, Espelho de Uma Vida</h1>
       </div>
     </section>
 
@@ -600,7 +610,7 @@
       <div class="article-container">
         <header class="article-header">
           <h1>História da APA do Encantado</h1>
-          <p class="subtitle">Memorial de uma obra suada — e vigiada — às margens do Rio Araguaia</p>
+          <p class="subtitle">Memorial de um esforço monumental às margens do Rio Araguaia para a Humanidade</p>
         </header>
 
         <p class="article-lead">
@@ -618,7 +628,7 @@
 
           <blockquote>
             <span class="quote-open" aria-hidden="true"></span>
-            O Encantado não foi um projeto. Foi uma promessa."
+            O Encantado não foi um projeto. Foi uma promessa.”
             <cite>— Batista Custódio</cite>
           </blockquote>
 
@@ -773,7 +783,7 @@
 
           <blockquote>
             <span class="quote-open" aria-hidden="true"></span>
-            O Encantado não quer plateia. Quer guardiões."
+            O Encantado não precisa só de plateia. Ele precisa de guardiões.”
             <cite>— Batista Custódio</cite>
           </blockquote>
 
@@ -806,8 +816,7 @@
           <div class="article-cta">
             <h2>Conheça a APA do Encantado</h2>
             <p>
-              Venha com respeito. Volte com consciência.<br>
-              E ajude a manter de pé a obra de décadas que Batista Custódio construiu — com luta, glória e vigilância.
+              <strong>Venha com respeito. Volte com consciência.</strong> E ajude a manter de pé a obra de décadas que Batista Custódio construiu com o suor de sua vida.
             </p>
             <a href="../#contato" class="btn btn-primary btn-glow">
               <span class="btn-icon">💬</span>
