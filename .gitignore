@@ -7,6 +7,7 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
+localManipulationData/
 
 # Editor
 .vscode/

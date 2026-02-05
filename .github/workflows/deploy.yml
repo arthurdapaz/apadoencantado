@@ -1,5 +1,5 @@
 # APA do Encantado - Deploy Workflow
-# 
+#
 # Este workflow executa automaticamente quando há push na branch dev.
 # Ele processa os arquivos fonte, otimiza assets e faz deploy na branch main.
 
@@ -19,7 +19,7 @@ permissions:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 📥 Checkout branch dev
         uses: actions/checkout@v4

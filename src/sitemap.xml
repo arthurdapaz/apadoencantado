@@ -56,4 +56,12 @@
     </video:video>
   </url>
   
+  <!-- Página de História -->
+  <url>
+    <loc>https://www.apadoencantado.eco.br/historia/</loc>
+    <lastmod>2026-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
 </urlset>

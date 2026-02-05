@@ -304,42 +304,74 @@ async function buildVideos() {
   }
 }
 
-// Minificar HTML e atualizar referências
-async function buildHTML() {
-  logStep('HTML', 'Minificando HTML e atualizando referências');
-  
-  const srcPath = path.join(CONFIG.srcDir, 'index.html');
+// Processar um arquivo HTML individual
+async function processHTMLFile(srcPath, destPath, isSubpage = false) {
   let html = fs.readFileSync(srcPath, 'utf8');
   
+  // Prefixo para recursos (../ para subpáginas, vazio para raiz)
+  const prefix = isSubpage ? '../' : '';
+  
   // Atualizar referências CSS para versões minificadas
+  html = html.replace(/href="\.\.\/css\/styles\.css"/g, `href="${prefix}css/styles.min.css"`);
+  html = html.replace(/href="\.\.\/css\/animations\.css"/g, `href="${prefix}css/animations.min.css"`);
   html = html.replace(/href="css\/styles\.css"/g, 'href="css/styles.min.css"');
   html = html.replace(/href="css\/animations\.css"/g, 'href="css/animations.min.css"');
   
   // Substituir múltiplos scripts JS por bundle único
-  // Remover scripts individuais
+  html = html.replace(/<script src="\.\.\/js\/droplets\.js"><\/script>\s*/g, '');
+  html = html.replace(/<script src="\.\.\/js\/lightbox\.js"><\/script>\s*/g, '');
+  html = html.replace(/<script src="\.\.\/js\/app\.js"><\/script>/g, `<script src="${prefix}js/${CONFIG.jsBundleName}"></script>`);
   html = html.replace(/<script src="js\/droplets\.js"><\/script>\s*/g, '');
   html = html.replace(/<script src="js\/lightbox\.js"><\/script>\s*/g, '');
   html = html.replace(/<script src="js\/app\.js"><\/script>/g, `<script src="js/${CONFIG.jsBundleName}"></script>`);
   
   // Atualizar referências de imagens para usar <picture> com WebP
-  html = updateImageReferences(html);
+  html = updateImageReferences(html, isSubpage);
   
   // Minificar HTML
   const minified = await minifyHTML(html, CONFIG.htmlOptions);
   
-  const destPath = path.join(CONFIG.distDir, 'index.html');
+  ensureDir(path.dirname(destPath));
   fs.writeFileSync(destPath, minified);
   
+  const fileName = path.relative(CONFIG.distDir, destPath);
   const savings = ((1 - minified.length / html.length) * 100).toFixed(1);
-  logSuccess(`index.html minificado (${savings}% menor)`);
+  logSuccess(`${fileName} minificado (${savings}% menor)`);
+}
+
+// Minificar HTML e atualizar referências
+async function buildHTML() {
+  logStep('HTML', 'Minificando HTML e atualizando referências');
+  
+  // Processar index.html principal
+  const mainSrcPath = path.join(CONFIG.srcDir, 'index.html');
+  const mainDestPath = path.join(CONFIG.distDir, 'index.html');
+  await processHTMLFile(mainSrcPath, mainDestPath, false);
+  
+  // Processar subpáginas (pastas com index.html)
+  const entries = fs.readdirSync(CONFIG.srcDir, { withFileTypes: true });
+  
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      const subIndexPath = path.join(CONFIG.srcDir, entry.name, 'index.html');
+      if (fs.existsSync(subIndexPath)) {
+        const destPath = path.join(CONFIG.distDir, entry.name, 'index.html');
+        await processHTMLFile(subIndexPath, destPath, true);
+      }
+    }
+  }
 }
 
 // Atualizar referências de imagens para usar WebP com fallback
-function updateImageReferences(html) {
-  // Pattern para encontrar tags img com src JPG
-  const imgPattern = /<img([^>]*?)src="(images\/[^"]+\.(?:jpg|jpeg))"([^>]*?)>/gi;
+function updateImageReferences(html, isSubpage = false) {
+  // Prefixo para subpáginas
+  const prefix = isSubpage ? '../' : '';
   
-  html = html.replace(imgPattern, (match, before, src, after) => {
+  // Pattern para encontrar tags img com src JPG (com ou sem ../)
+  const imgPattern = /<img([^>]*?)src="(\.\.\/)?images\/([^"]+\.(?:jpg|jpeg))"([^>]*?)>/gi;
+  
+  html = html.replace(imgPattern, (match, before, dotPrefix, imgPath, after) => {
+    const src = `${prefix}images/${imgPath}`;
     const webpSrc = src.replace(/\.(jpg|jpeg)$/i, '.webp');
     
     // Extrair atributos existentes
