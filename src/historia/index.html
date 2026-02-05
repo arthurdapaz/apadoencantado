@@ -80,7 +80,7 @@
       position: relative;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
       overflow: hidden;
     }
@@ -565,20 +565,15 @@
     <section class="hero-internal" aria-label="História da APA do Encantado">
       <div class="hero-video-wrapper">
         <video
-          id="hero-video"
           autoplay
           muted
           loop
           playsinline
           poster="../video/poster.webp"
-          preload="auto"
-          data-hq-webm="../video/hero-desktop-4k.webm"
-          data-hq-mp4="../video/hero-desktop-4k.mp4"
+          preload="metadata"
         >
-          <source src="../video/hero-mobile-low.webm" type="video/webm" media="(max-width: 768px)">
-          <source src="../video/hero-mobile-low.mp4" type="video/mp4" media="(max-width: 768px)">
-          <source src="../video/hero-desktop-low.webm" type="video/webm">
-          <source src="../video/hero-desktop-low.mp4" type="video/mp4">
+          <source src="../video/hero-desktop.webm" type="video/webm">
+          <source src="../video/hero-desktop.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
       </div>

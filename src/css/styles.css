@@ -486,28 +486,12 @@ em {
   width: 100%;
   height: 100%;
   z-index: -1;
-  background: #0d2818; /* Fallback color */
 }
 
 .hero-video-wrapper video {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  background: transparent;
-}
-
-/* Base LQ video - z-index 0 */
-.hero-video-wrapper video#hero-video {
-  z-index: 0;
-}
-
-/* 4K video fades in ON TOP - z-index 1 */
-.hero-video-wrapper video.hero-video-hq {
-  z-index: 1;
-  opacity: 0;
 }
 
 .hero-overlay {
@@ -516,7 +500,6 @@ em {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2; /* Always on top of all videos */
   background: linear-gradient(
     180deg,
     rgba(13, 40, 24, 0.4) 0%,
