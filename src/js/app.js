@@ -58,7 +58,7 @@ function initNavigation() {
 // ============================================
 
 function initScrollAnimations() {
-  const options = { rootMargin: '0px 0px -100px 0px', threshold: 0.1 };
+  const options = { rootMargin: '0px 0px -50px 0px', threshold: 0.1 };
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
@@ -73,8 +73,10 @@ function initScrollAnimations() {
   const selectors = [
     '.organic-box', '.stat-card', '.attraction-card', '.activity-card',
     '.fauna-card', '.fauna-card-image', '.section-header', '.fade-in', '.slide-up',
-    '.slide-left', '.slide-right', '.scale-in',
-    '.attractions-grid', '.activities-grid', '.fauna-grid', '.fauna-grid-images', '.about-stats'
+    '.slide-left', '.slide-right', '.scale-in', '.water-reveal-image',
+    '.gallery-item', '.featured-attraction', '.featured-image', '.featured-content',
+    '.attractions-grid', '.activities-grid', '.fauna-grid', '.fauna-grid-images', 
+    '.about-stats', '.gallery-grid'
   ];
 
   document.querySelectorAll(selectors.join(', ')).forEach(el => observer.observe(el));

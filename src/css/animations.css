@@ -17,7 +17,13 @@
 .stat-card,
 .attraction-card,
 .activity-card,
-.fauna-card {
+.fauna-card,
+.fauna-card-image,
+.water-reveal-image,
+.gallery-item,
+.featured-attraction,
+.featured-image,
+.featured-content {
   opacity: 0;
   transform: translateY(30px);
   transition: 
@@ -32,7 +38,13 @@
 .stat-card.revealed,
 .attraction-card.revealed,
 .activity-card.revealed,
-.fauna-card.revealed {
+.fauna-card.revealed,
+.fauna-card-image.revealed,
+.water-reveal-image.revealed,
+.gallery-item.revealed,
+.featured-attraction.revealed,
+.featured-image.revealed,
+.featured-content.revealed {
   opacity: 1;
   transform: translateY(0);
 }
@@ -104,6 +116,24 @@
 .fauna-grid.revealed .fauna-card:nth-child(4) { transition-delay: 0.2s; }
 .fauna-grid.revealed .fauna-card:nth-child(5) { transition-delay: 0.25s; }
 .fauna-grid.revealed .fauna-card:nth-child(6) { transition-delay: 0.3s; }
+
+.fauna-grid-images.revealed .fauna-card-image:nth-child(1) { transition-delay: 0.05s; }
+.fauna-grid-images.revealed .fauna-card-image:nth-child(2) { transition-delay: 0.1s; }
+.fauna-grid-images.revealed .fauna-card-image:nth-child(3) { transition-delay: 0.15s; }
+.fauna-grid-images.revealed .fauna-card-image:nth-child(4) { transition-delay: 0.2s; }
+.fauna-grid-images.revealed .fauna-card-image:nth-child(5) { transition-delay: 0.25s; }
+.fauna-grid-images.revealed .fauna-card-image:nth-child(6) { transition-delay: 0.3s; }
+
+.gallery-grid.revealed .gallery-item:nth-child(1) { transition-delay: 0.05s; }
+.gallery-grid.revealed .gallery-item:nth-child(2) { transition-delay: 0.1s; }
+.gallery-grid.revealed .gallery-item:nth-child(3) { transition-delay: 0.15s; }
+.gallery-grid.revealed .gallery-item:nth-child(4) { transition-delay: 0.2s; }
+.gallery-grid.revealed .gallery-item:nth-child(5) { transition-delay: 0.25s; }
+.gallery-grid.revealed .gallery-item:nth-child(6) { transition-delay: 0.3s; }
+.gallery-grid.revealed .gallery-item:nth-child(7) { transition-delay: 0.35s; }
+.gallery-grid.revealed .gallery-item:nth-child(8) { transition-delay: 0.4s; }
+.gallery-grid.revealed .gallery-item:nth-child(9) { transition-delay: 0.45s; }
+.gallery-grid.revealed .gallery-item:nth-child(10) { transition-delay: 0.5s; }
 
 .about-stats.revealed .stat-card:nth-child(1) { transition-delay: 0.1s; }
 .about-stats.revealed .stat-card:nth-child(2) { transition-delay: 0.2s; }
@@ -337,6 +367,12 @@
   .attraction-card,
   .activity-card,
   .fauna-card,
+  .fauna-card-image,
+  .water-reveal-image,
+  .gallery-item,
+  .featured-attraction,
+  .featured-image,
+  .featured-content,
   .section-header {
     opacity: 1;
     transform: none;
