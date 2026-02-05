@@ -222,10 +222,13 @@ function initCounterAnimation() {
 
 function animateNumber(el) {
   const original = el.textContent;
-  const match = original.match(/[\d,.]+/);
+  const match = original.match(/[\d.,]+/);
   if (!match) return;
 
-  const target = parseFloat(match[0].replace(/,/g, ''));
+  // No Brasil: ponto é milhar, vírgula é decimal
+  // Remove pontos (separador de milhar) e converte vírgula para ponto (decimal)
+  const numStr = match[0].replace(/\./g, '').replace(',', '.');
+  const target = parseFloat(numStr);
   const suffix = original.replace(match[0], '');
   const start = performance.now();
   const duration = 2000;
