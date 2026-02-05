@@ -1,0 +1,24 @@
+{
+  "name": "apadoencantado-landing-page",
+  "version": "1.0.0",
+  "description": "Landing page da APA do Encantado - Build toolkit para otimização e deploy",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:css": "node scripts/build.js --css-only",
+    "build:js": "node scripts/build.js --js-only",
+    "build:html": "node scripts/build.js --html-only",
+    "build:images": "node scripts/build.js --images-only",
+    "clean": "rm -rf dist",
+    "preview": "npx serve dist -p 3000"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.3",
+    "html-minifier-terser": "^7.2.0",
+    "sharp": "^0.33.2",
+    "terser": "^5.27.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

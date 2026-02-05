@@ -1,0 +1,81 @@
+# APA do Encantado - Deploy Workflow
+# 
+# Este workflow executa automaticamente quando há push na branch dev.
+# Ele processa os arquivos fonte, otimiza assets e faz deploy na branch main.
+
+name: Build & Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - dev
+  # Permite execução manual via GitHub Actions UI
+  workflow_dispatch:
+
+# Permissões necessárias para push na branch main
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout branch dev
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🔨 Executar build
+        run: npm run build
+
+      - name: 📋 Listar arquivos gerados
+        run: |
+          echo "📁 Conteúdo do diretório dist/"
+          ls -la dist/
+          echo ""
+          echo "📁 CSS minificado:"
+          ls -la dist/css/
+          echo ""
+          echo "📁 JS bundle:"
+          ls -la dist/js/
+          echo ""
+          echo "📁 Imagens otimizadas:"
+          ls -la dist/images/ | head -20
+
+      - name: 🚀 Deploy para branch main
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: main
+          force_orphan: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: '🚀 Deploy automático - Build otimizado'
+
+      - name: ✅ Deploy concluído
+        run: |
+          echo "=============================================="
+          echo "🌿 APA do Encantado - Deploy Concluído!"
+          echo "=============================================="
+          echo ""
+          echo "📍 Site publicado em: https://www.apadoencantado.eco.br"
+          echo ""
+          echo "Otimizações aplicadas:"
+          echo "  ✓ HTML minificado"
+          echo "  ✓ CSS minificado"
+          echo "  ✓ JavaScript concatenado e minificado"
+          echo "  ✓ Imagens otimizadas (JPG + WebP)"
+          echo ""
+          echo "=============================================="
