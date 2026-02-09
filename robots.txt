@@ -1,0 +1,18 @@
+# Robots.txt para APA do Encantado
+# https://www.apadoencantado.eco.br
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.apadoencantado.eco.br/sitemap.xml
+
+# Recursos que podem ser rastreados
+Allow: /images/
+Allow: /video/
+Allow: /css/
+Allow: /js/
+
+# Bloquear arquivos desnecessários
+Disallow: /*.json$
+Disallow: /googleea809f6d4c5446fa.html
