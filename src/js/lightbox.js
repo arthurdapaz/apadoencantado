@@ -64,7 +64,13 @@ class Lightbox {
       <button class="lightbox-nav prev" aria-label="Anterior">‹</button>
       <button class="lightbox-nav next" aria-label="Próxima">›</button>
       <div class="lightbox-caption"><h3></h3><p></p></div>
-      <div class="lightbox-content"><img src="" alt=""></div>
+      <div class="lightbox-content">
+        <img src="" alt="" class="lightbox-img">
+        <div class="lightbox-loading" aria-hidden="true" role="status">
+          <div class="lightbox-spinner" aria-hidden="true"></div>
+          <img src="images/logo-apa-do-encantado.svg" alt="Logo APA do Encantado" class="lightbox-loading-logo" aria-hidden="true">
+        </div>
+      </div>
     `;
     document.body.appendChild(this.lightbox);
   }
@@ -203,18 +209,60 @@ class Lightbox {
 
   show() {
     const item = this.images[this.currentIndex];
-    const img = this.lightbox.querySelector('.lightbox-content img');
+    const imgEl = this.lightbox.querySelector('.lightbox-img');
     const caption = this.lightbox.querySelector('.lightbox-caption');
-    
-    img.src = item.src;
-    img.alt = item.alt;
-    
-    this.lightbox.querySelector('.lightbox-counter').textContent = 
-      `${this.currentIndex + 1}/${this.images.length}`;
-    
-    caption.querySelector('h3').textContent = item.title;
-    caption.querySelector('p').textContent = item.desc;
-    caption.style.display = item.title || item.desc ? 'block' : 'none';
+    const counter = this.lightbox.querySelector('.lightbox-counter');
+    const loading = this.lightbox.querySelector('.lightbox-loading');
+
+    // update counter immediately
+    counter.textContent = `${this.currentIndex + 1}/${this.images.length}`;
+
+    // hide caption while we load the new image to avoid showing stale title
+    caption.style.display = 'none';
+    loading.style.display = 'flex';
+    imgEl.classList.add('hidden');
+
+    // Cancel any previous loader
+    if (this.currentLoader) {
+      this.currentLoader.onload = null;
+      this.currentLoader.onerror = null;
+      this.currentLoader = null;
+    }
+
+    // Use a load id to ignore stale loads when navigating quickly
+    const loadId = (this._loadId = (this._loadId || 0) + 1);
+
+    const loader = new Image();
+    this.currentLoader = loader;
+
+    loader.onload = () => {
+      // ignore if another load started
+      if (loadId !== this._loadId) return;
+      imgEl.src = item.src;
+      imgEl.alt = item.alt || '';
+
+      caption.querySelector('h3').textContent = item.title || '';
+      caption.querySelector('p').textContent = item.desc || '';
+      caption.style.display = item.title || item.desc ? 'block' : 'none';
+
+      loading.style.display = 'none';
+      imgEl.classList.remove('hidden');
+      this.currentLoader = null;
+    };
+
+    loader.onerror = () => {
+      if (loadId !== this._loadId) return;
+      loading.style.display = 'none';
+      caption.querySelector('h3').textContent = 'Erro ao carregar a imagem';
+      caption.querySelector('p').textContent = '';
+      caption.style.display = 'block';
+      imgEl.classList.remove('hidden');
+      imgEl.src = '';
+      this.currentLoader = null;
+    };
+
+    // Start loading after handlers are set
+    loader.src = item.src;
   }
 }
 
