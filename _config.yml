@@ -3,6 +3,7 @@ title: "APA do Encantado"
 description: "Área de Proteção Ambiental do Encantado - Ecoturismo no Cerrado, Baliza GO"
 url: "https://www.apadoencantado.eco.br"
 baseurl: ""
+google_analytics: "" # Adicione seu ID do Google Analytics aqui (ex: G-XXXXXXXXXX)
 lang: pt-BR
 
 # Build settings
