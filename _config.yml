@@ -1,0 +1,30 @@
+# APA do Encantado - Jekyll Configuration
+title: "APA do Encantado"
+description: "Área de Proteção Ambiental do Encantado - Ecoturismo no Cerrado, Baliza GO"
+url: "https://www.apadoencantado.eco.br"
+baseurl: ""
+lang: pt-BR
+
+# Build settings
+markdown: kramdown
+permalink: pretty
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - LICENSE
+  - .gitignore
+  - .DS_Store
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      lang: "pt-BR"
+      author: "APA do Encantado - Batista Custódio"
+      og_image: "/assets/images/canion_rio_araguaia_1.jpg"

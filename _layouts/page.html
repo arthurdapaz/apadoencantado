@@ -1,0 +1,30 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<section class="hero-internal" aria-label="{{ page.hero_title | default: page.title }}">
+    <div class="hero-video-wrapper">
+        <video autoplay muted loop playsinline poster="{{ site.baseurl }}/assets/video/poster.webp" preload="metadata">
+            <source src="{{ site.baseurl }}/assets/video/hero-desktop.webm" type="video/webm">
+            <source src="{{ site.baseurl }}/assets/video/hero-desktop.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content container">
+        <h1 class="hero-title-main">{{ page.hero_title | default: page.title }}</h1>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<nav class="breadcrumb" aria-label="Navegação estrutural">
+    <div class="container">
+        <ol class="breadcrumb-list">
+            <li><a href="{{ site.baseurl }}/">Início</a></li>
+            <li aria-current="page">{{ page.breadcrumb_title | default: page.short_title | default: page.title }}</li>
+        </ol>
+    </div>
+</nav>
+
+{{ content }}

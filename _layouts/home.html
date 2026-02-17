@@ -1,0 +1,48 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<section class="hero" id="inicio" aria-label="Apresentação da APA do Encantado">
+    <div class="hero-video-wrapper">
+        <video id="hero-video" autoplay muted loop playsinline poster="{{ site.baseurl }}/assets/video/poster.webp"
+            preload="metadata">
+            <source src="{{ site.baseurl }}/assets/video/hero-mobile.webm" type="video/webm" media="(max-width: 768px)">
+            <source src="{{ site.baseurl }}/assets/video/hero-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+            <source src="{{ site.baseurl }}/assets/video/hero-desktop.webm" type="video/webm">
+            <source src="{{ site.baseurl }}/assets/video/hero-desktop.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content container">
+        <span class="hero-badge">Área de Proteção Ambiental</span>
+        <h1 class="hero-title">
+            <span class="title-line">Bem-vindo a</span>
+            <span class="title-main">APA do Encantado</span>
+        </h1>
+        <p class="hero-subtitle">
+            <strong>7.913 hectares</strong> de natureza preservada no coração do Cerrado,
+            <strong>74 cachoeiras</strong> e o incrível <strong>Rio Araguaia</strong>.
+        </p>
+        <div class="hero-cta-group">
+            <a href="#contato" class="btn btn-primary btn-glow">
+                <span class="btn-icon">💬</span>
+                Agendar Visita
+            </a>
+            <a href="#sobre" class="btn btn-secondary">
+                <span class="btn-icon">↓</span>
+                Explorar
+            </a>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">
+        <div class="scroll-mouse">
+            <div class="scroll-wheel"></div>
+        </div>
+        <span>Role para descobrir</span>
+    </div>
+</section>
+
+{{ content }}

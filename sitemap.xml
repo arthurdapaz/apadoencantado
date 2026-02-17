@@ -1,67 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Página Principal -->
   <url>
     <loc>https://www.apadoencantado.eco.br/</loc>
-    <lastmod>2026-02-04</lastmod>
+    <lastmod>2026-02-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    
-    <!-- Imagens principais para indexação -->
-    <image:image>
-      <image:loc>https://www.apadoencantado.eco.br/images/canion_rio_araguaia_1.jpg</image:loc>
-      <image:title>Cânion do Rio Araguaia - APA do Encantado</image:title>
-      <image:caption>Vista aérea do impressionante cânion de 33km do Rio Araguaia na APA do Encantado, Baliza, Goiás</image:caption>
-      <image:geo_location>Baliza, Goiás, Brasil</image:geo_location>
-    </image:image>
-    
-    <image:image>
-      <image:loc>https://www.apadoencantado.eco.br/images/cachoeira_fabio_nasser_1.jpg</image:loc>
-      <image:title>Cachoeira Fábio Nasser - APA do Encantado</image:title>
-      <image:caption>Cachoeira Fábio Nasser, uma das 74 cachoeiras da APA do Encantado no Cerrado brasileiro</image:caption>
-      <image:geo_location>Baliza, Goiás, Brasil</image:geo_location>
-    </image:image>
-    
-    <image:image>
-      <image:loc>https://www.apadoencantado.eco.br/images/cachoeira_rota_poetas_1.jpg</image:loc>
-      <image:title>Rota dos Poetas - Cachoeiras do Cerrado</image:title>
-      <image:caption>Trilha da Rota dos Poetas com cachoeiras cristalinas na APA do Encantado</image:caption>
-      <image:geo_location>Baliza, Goiás, Brasil</image:geo_location>
-    </image:image>
-    
-    <image:image>
-      <image:loc>https://www.apadoencantado.eco.br/images/poco_agua_morna_1.jpg</image:loc>
-      <image:title>Poços de Água Morna - Piscinas Naturais</image:title>
-      <image:caption>Piscinas naturais de água morna na APA do Encantado, ideais para banho e relaxamento</image:caption>
-      <image:geo_location>Baliza, Goiás, Brasil</image:geo_location>
-    </image:image>
-    
-    <image:image>
-      <image:loc>https://www.apadoencantado.eco.br/images/rio_araguaia_praia.jpg</image:loc>
-      <image:title>Praias do Rio Araguaia</image:title>
-      <image:caption>Praias de água doce com areias brancas às margens do Rio Araguaia</image:caption>
-      <image:geo_location>Baliza, Goiás, Brasil</image:geo_location>
-    </image:image>
-    
-    <!-- Vídeo principal -->
-    <video:video>
-      <video:thumbnail_loc>https://www.apadoencantado.eco.br/video/poster.webp</video:thumbnail_loc>
-      <video:title>APA do Encantado - Ecoturismo no Cerrado Brasileiro</video:title>
-      <video:description>Conheça a APA do Encantado: 7.913 hectares de natureza preservada com 74 cachoeiras, cânion de 33km e experiências únicas no Rio Araguaia, Goiás.</video:description>
-      <video:content_loc>https://www.apadoencantado.eco.br/video/hero-desktop.mp4</video:content_loc>
-      <video:family_friendly>yes</video:family_friendly>
-      <video:live>no</video:live>
-    </video:video>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.apadoencantado.eco.br/" />
   </url>
-  
-  <!-- Página de História -->
+
+  <!-- História -->
   <url>
     <loc>https://www.apadoencantado.eco.br/historia/</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.apadoencantado.eco.br/historia/" />
   </url>
-  
+
+  <!-- Parceiros -->
+  <url>
+    <loc>https://www.apadoencantado.eco.br/parceiros/</loc>
+    <lastmod>2026-02-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://www.apadoencantado.eco.br/parceiros/" />
+  </url>
+
 </urlset>

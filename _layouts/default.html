@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    {% include head.html %}
+</head>
+
+<body>
+    {% if page.layout == 'home' %}
+    <!-- Water Droplets Canvas -->
+    <canvas id="water-canvas"></canvas>
+    {% endif %}
+
+    {% include header.html %}
+
+    <main id="main-content" role="main">
+        {{ content }}
+    </main>
+
+    {% include footer.html %}
+    {% include whatsapp-float.html %}
+
+    {% if page.layout == 'home' %}
+    <script src="{{ site.baseurl }}/assets/js/droplets.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/lightbox.js"></script>
+    {% endif %}
+    <script src="{{ site.baseurl }}/assets/js/app.js"></script>
+</body>
+
+</html>
