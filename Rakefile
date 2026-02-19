@@ -3,102 +3,136 @@ require 'aws-sdk-s3'
 require 'dotenv/load'
 require 'fileutils'
 
+MAX_HEIGHT = 1080
+
 namespace :deploy do
-  desc "Process and upload videos to Cloudflare R2"
+  desc "Convert video to WebM and upload to Cloudflare R2"
   task :videos do
     # --- Configuration ---
-    source_dir = "local/videos"
-    processed_dir = "local/processed_videos"
-    bucket_name = ENV['R2_BUCKET_NAME']
-    r2_endpoint = ENV['R2_ENDPOINT']
-    aws_region = ENV['AWS_REGION']
-    public_base_url = "#{r2_endpoint}/#{bucket_name}"
+    source_dir    = "_local/videos"
+    processed_dir = "_local/processed_videos"
+    bucket_name   = ENV['R2_BUCKET_NAME']
+    r2_endpoint   = ENV['R2_ENDPOINT']
+    aws_region    = ENV['AWS_REGION']
+    public_base_url = ENV['R2_PUBLIC_URL'] || "#{r2_endpoint}/#{bucket_name}"
 
     # --- Setup ---
-    # Create directories if they don't exist
     FileUtils.mkdir_p(source_dir)
     FileUtils.mkdir_p(processed_dir)
 
-    # Check for ffmpeg
-    unless system('ffmpeg -version > /dev/null 2>&1')
-      puts "Error: ffmpeg is not installed. Please install it to proceed."
-      exit
+    # Check for ffmpeg and ffprobe
+    unless system('ffmpeg -version > /dev/null 2>&1') && system('ffprobe -version > /dev/null 2>&1')
+      puts "Error: ffmpeg or ffprobe is not installed."
+      exit 1
     end
 
     # Check for credentials
     if ENV['AWS_ACCESS_KEY_ID'].to_s.empty? || ENV['AWS_SECRET_ACCESS_KEY'].to_s.empty?
       puts "Error: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are not set in your .env file."
-      exit
+      exit 1
     end
 
-    # --- S3 Client ---
+    # --- S3 Client (Cloudflare R2) ---
     s3_client = Aws::S3::Client.new(
-      endpoint: r2_endpoint,
-      region: aws_region,
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+      endpoint:          r2_endpoint,
+      region:            aws_region,
+      access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
     )
 
     puts "Looking for videos in #{source_dir}..."
 
-    # --- Main Logic ---
-    Dir.glob("#{source_dir}/*.{mp4,mov,avi,mkv}").each do |input_file|
+    # Glob case-insensitively, then deduplicate by resolved path to avoid
+    # macOS double-matches (e.g. *.mp4 and *.MP4 hitting the same file).
+    video_files = Dir.glob("#{source_dir}/*.{mp4,mov,avi,mkv}", File::FNM_CASEFOLD)
+                     .map { |f| File.realpath(f) }
+                     .uniq
+
+    video_files.each do |input_file|
       basename = File.basename(input_file, ".*")
-      puts "\nProcessing: #{basename}"
+      output_webm = "#{processed_dir}/#{basename}.webm"
 
-      # --- Define output paths ---
-      output_4k_webm = "#{processed_dir}/#{basename}-4k.webm"
-      output_720p_mp4 = "#{processed_dir}/#{basename}-720p.mp4"
+      puts "\n--- #{basename} ---"
 
-      # --- Process High Quality (4K WebM) ---
-      if File.exist?(output_4k_webm)
-        puts "  -> 4K WebM version already exists. Skipping processing."
-      else
-        puts "  -> Generating 4K WebM version..."
-        ffmpeg_4k_command = "ffmpeg -i \"#{input_file}\" -c:v libvpx-vp9 -crf 30 -b:v 0 -c:a libopus \"#{output_4k_webm}\""
-        system(ffmpeg_4k_command)
+      # --- Detect original dimensions ---
+      raw = `ffprobe -v error -select_streams v:0 \
+        -show_entries stream=width,height \
+        -of csv=p=0:s=x "#{input_file}"`.strip
+      orig_w, orig_h = raw.split('x').map(&:to_i)
+
+      if orig_w.zero? || orig_h.zero?
+        puts "  -> Could not read dimensions. Skipping."
+        next
       end
 
-      # --- Process Low Quality (720p MP4) ---
-      if File.exist?(output_720p_mp4)
-        puts "  -> 720p MP4 version already exists. Skipping processing."
+      puts "  -> Original: #{orig_w}x#{orig_h}"
+
+      # --- Determine output scale ---
+      # If height > MAX_HEIGHT (e.g. 2K/4K), cap to 1080p preserving aspect ratio.
+      # scale=-2:HEIGHT ensures width is always divisible by 2 (VP9 requirement).
+      scale_filter = if orig_h <= MAX_HEIGHT
+        "scale=-2:#{orig_h}"   # keep original height, let ffmpeg fix width parity
       else
-        puts "  -> Generating 720p MP4 version..."
-        ffmpeg_720p_command = "ffmpeg -i \"#{input_file}\" -vf \"scale=-1:720,fps=30\" -c:v libx264 -crf 28 -preset faster -c:a aac \"#{output_720p_mp4}\""
-        system(ffmpeg_720p_command)
+        puts "  -> Downscaling to #{MAX_HEIGHT}p"
+        "scale=-2:#{MAX_HEIGHT}"
+      end
+
+      # Cap to 30fps — halves file size for 60fps sources with no perceptible loss.
+      vf = "#{scale_filter},fps=30"
+
+      # --- Skip if already converted ---
+      if File.exist?(output_webm)
+        puts "  -> Already converted. Skipping ffmpeg. (delete the file to re-convert)"
+      else
+        puts "  -> Converting to WebM (VP9)..."
+        # -deadline good -cpu-used 4: ~10-20x faster than default, minimal quality loss
+        # -row-mt 1 -threads 0: full multithreaded row encoding across all CPU cores
+        # -crf 33: good visual quality; lower = better quality, larger file
+        # -b:v 0: pure CRF mode (no bitrate cap)
+        cmd = <<~CMD.gsub("\n", " ")
+          ffmpeg -i "#{input_file}"
+          -hide_banner
+          -loglevel error
+          -vf "#{vf}"
+          -c:v libvpx-vp9
+          -crf 35 -b:v 0
+          -deadline realtime
+          -cpu-used 8
+          -row-mt 1
+          -b:a 128k
+          -c:a libopus 
+          "#{output_webm}"
+        CMD
+
+        success = system(cmd)
+        unless success
+          puts "  -> Conversion FAILED. Skipping upload."
+          next
+        end
+
+        size_mb = (File.size(output_webm) / 1024.0 / 1024.0).round(1)
+        puts "  -> Done. Output size: #{size_mb} MB"
       end
 
       # --- Upload to R2 ---
-      [output_4k_webm, output_720p_mp4].each do |file_to_upload|
-        if File.exist?(file_to_upload)
-          key = File.basename(file_to_upload)
-          puts "  -> Uploading #{key} to R2 bucket '#{bucket_name}'..."
-          
-          begin
-            File.open(file_to_upload, 'rb') do |file|
-              s3_client.put_object(
-                bucket: bucket_name,
-                key: key,
-                body: file,
-                acl: 'public-read' # Make the file publicly accessible
-              )
-            end
-            puts "    - Upload successful."
-          rescue Aws::S3::Errors::ServiceError => e
-            puts "    - Error uploading #{key}: #{e.message}"
-          end
-        else
-          puts "  -> Could not find #{File.basename(file_to_upload)} to upload. It might have failed to generate."
+      key = File.basename(output_webm)
+      puts "  -> Uploading #{key} to R2..."
+      begin
+        File.open(output_webm, 'rb') do |f|
+          s3_client.put_object(
+            bucket:       bucket_name,
+            key:          key,
+            body:         f,
+            content_type: 'video/webm'
+          )
         end
+        puts "  -> Upload successful."
+        puts "  -> Public URL: #{public_base_url}/#{key}"
+      rescue Aws::S3::Errors::ServiceError => e
+        puts "  -> Upload error: #{e.message}"
       end
-
-      # --- Print URLs ---
-      puts "\n--- Video URLs for #{basename} ---"
-      puts "High Quality (WebM): #{public_base_url}/#{File.basename(output_4k_webm)}"
-      puts "Low Quality (MP4):   #{public_base_url}/#{File.basename(output_720p_mp4)}"
-      puts "------------------------------------"
     end
 
-    puts "\nVideo deployment process finished."
+    puts "\nDone."
   end
 end
