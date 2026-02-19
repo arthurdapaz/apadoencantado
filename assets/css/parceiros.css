@@ -90,3 +90,17 @@
 .partner-link .btn-icon {
     font-size: 1.2rem;
 }
+
+.partner-video {
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.partner-video video {
+    display: block;
+    width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 12px;
+}
