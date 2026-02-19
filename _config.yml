@@ -18,6 +18,7 @@ exclude:
   - LICENSE
   - .gitignore
   - .DS_Store
+  - Rakefile
 
 # Default front matter
 defaults:
